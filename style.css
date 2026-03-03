@@ -15,20 +15,82 @@ body {
   animation: none;
 }
 
-/* Animação do gradiente removida (mantida apenas por compatibilidade) */
-@keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* ====== Faixa animada (header) ====== */
+.anim-band {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 12px;                         /* espaço interno da faixa */
+  position: relative;
+  z-index: 2;                                 /* fica acima do fundo */
+  background: linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.35)); /* base escura */
+  overflow: hidden;                           /* esconde a animação que sai da faixa */
+}
+.anim-band::before {
+  content: "";
+  position: absolute;
+  inset: -40% 0 -40% 0;
+  background: linear-gradient(90deg, rgba(255,120,0,0.06), rgba(255,255,255,0.02), rgba(255,120,0,0.06));
+  transform: rotate(12deg);
+  animation: bandGlow 6s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+@keyframes bandGlow {
+  0%   { transform: translateX(-30%) rotate(12deg); opacity: 0.6; }
+  50%  { transform: translateX(30%)  rotate(12deg); opacity: 1; }
+  100% { transform: translateX(-30%) rotate(12deg); opacity: 0.6; }
+}
+
+/* ===== estilo do h1 dentro da faixa animada (opção 5) ===== */
+/* papel: título limpo e legível com uma sublinha animada discreta */
+.anim-band h1 {
+  margin: 0;                                 /* remove margem padrão */
+  color: #fff;                               /* texto claro sobre o fundo */
+  font-weight: 800;                          /* destaque visual */
+  font-size: clamp(1.1rem, 3.2vw, 1.9rem);   /* responsivo entre mobile e desktop */
+  padding: 6px 8px;                          /* espaço interno leve */
+  position: relative;                        /* necessário para o ::after */
+  z-index: 3;                                /* garante que fique acima da animação da faixa */
+  text-shadow: 0 3px 10px rgba(0,0,0,0.45);  /* sombra para legibilidade */
+  transition: color .18s ease;               /* transição suave caso queira hover */
+  display: inline-block;                     /* garante centralização precisa da linha */
+}
+
+/* ===== sublinha animada ===== */
+/* papel: detalhe visual sutil que cresce ao passar o mouse */
+.anim-band h1::after {
+  content: "";
+  position: absolute;
+  left: 50%;                                 /* centraliza horizontalmente */
+  bottom: -10px;                             /* ajustado: distância entre texto e linha */
+  transform: translateX(-50%);               /* centraliza via transform */
+  width: 40%;                                /* largura inicial da linha */
+  height: 4px;                               /* espessura da linha */
+  border-radius: 4px;                        /* cantos arredondados */
+  background: linear-gradient(90deg, #ffb347, #ff6a00); /* gradiente quente */
+  transition: width .28s cubic-bezier(.2,.9,.2,1);      /* animação suave */
+  box-shadow: 0 6px 14px rgba(255,106,0,0.12);         /* brilho sutil */
+  pointer-events: none;                      /* não interfere em cliques */
+}
+
+/* ===== hover: aumenta a linha para dar feedback ===== */
+.anim-band h1:hover::after {
+  width: 60%;
+}
+
+/* ===== acessibilidade: foco por teclado ===== */
+.anim-band h1:focus {
+  outline: none;
+}
+.anim-band h1:focus::after {
+  width: 60%;
+  box-shadow: 0 8px 20px rgba(255,106,0,0.18);
 }
 
 /* ====== Layout do cardápio ====== */
-h1 {
-  text-align: center;
-  color: darkred;
-  margin: 20px 0;
-}
-
+/* papel: estilo do container dos cards; margin-top afasta os cards da faixa (Opção B) */
 .cardapio {
   display: flex;
   flex-wrap: wrap;
@@ -36,28 +98,27 @@ h1 {
   gap: 20px;
   max-width: 1000px;
   margin: 0 auto;
+  margin-top: 48px; /* ajustado para 48px: mais espaço entre a faixa e os cards */
   padding: 0 16px;
 }
 
+/* Estilo dos cards individuais */
 .menu-item {
   border: 1px solid #ccc;
   padding: 15px;
-  background: #fff;
+  background: rgba(255,255,255,0.95);         /* card opaco para legibilidade */
   width: 250px;
   text-align: center;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   transition: transform 0.2s ease;
 }
+.menu-item:hover { transform: scale(1.05); }
 
-.menu-item:hover {
-  transform: scale(1.05);
-}
+/* Emoji grande dentro do card */
+.emoji { font-size: 80px; }
 
-.emoji {
-  font-size: 80px;
-}
-
+/* Container da imagem/emoji para manter altura consistente */
 .image-container {
   display: flex;
   justify-content: center;
@@ -65,6 +126,7 @@ h1 {
   height: 150px;
 }
 
+/* Preço */
 .price {
   color: green;
   font-weight: bold;
@@ -73,6 +135,7 @@ h1 {
 }
 
 /* ====== Rodapé: faixa fixa com emojis e efeito ====== */
+/* papel: rodapé fixo com animação de emojis */
 footer.faixa {
   position: fixed;
   bottom: 0;
@@ -92,8 +155,6 @@ footer.faixa {
   background: linear-gradient(135deg, rgba(255,204,0,0.95), rgba(255,102,0,0.95));
   box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
 }
-
-/* Camada 1: emojis rolando para a direita e girando levemente */
 footer.faixa::before {
   content: "🍔  🍕  🥤  🍔  🍕  🥤  🍔  🍕  🥤";
   position: absolute;
@@ -101,13 +162,11 @@ footer.faixa::before {
   top: 50%;
   transform: translateY(-50%);
   white-space: nowrap;
-  font-size: 20px;            /* tamanho menor */
+  font-size: 20px;
   opacity: 0.95;
   filter: drop-shadow(0 2px 2px rgba(0,0,0,0.25));
   animation: slideRight 14s linear infinite, spinSlight 6s linear infinite;
 }
-
-/* Camada 2: emojis rolando para a esquerda, mais lento, com opacidade menor */
 footer.faixa::after {
   content: "🍕  🥤  🍔  🍕  🥤  🍔  🍕  🥤  🍔";
   position: absolute;
@@ -115,93 +174,28 @@ footer.faixa::after {
   top: 50%;
   transform: translateY(-50%);
   white-space: nowrap;
-  font-size: 16px;            /* ainda menor para profundidade */
+  font-size: 16px;
   opacity: 0.6;
   filter: blur(0.2px);
   animation: slideLeft 22s linear infinite, spinSlight 8s linear infinite;
 }
+@keyframes slideRight { 0% { left: -100%; } 100% { left: 100%; } }
+@keyframes slideLeft  { 0% { left: 100%; } 100% { left: -100%; } }
+@keyframes spinSlight { 0% { transform: translateY(-50%) rotate(0deg); } 50% { transform: translateY(-50%) rotate(8deg); } 100% { transform: translateY(-50%) rotate(0deg); } }
 
-/* Animações das camadas */
-@keyframes slideRight {
-  0%   { left: -100%; }
-  100% { left: 100%; }
-}
-@keyframes slideLeft {
-  0%   { left: 100%; }
-  100% { left: -100%; }
-}
-
-/* Pequeno giro contínuo para dar "rodando" */
-@keyframes spinSlight {
-  0%   { transform: translateY(-50%) rotate(0deg); }
-  50%  { transform: translateY(-50%) rotate(8deg); }
-  100% { transform: translateY(-50%) rotate(0deg); }
-}
-
-/* Ajustes responsivos para telas pequenas */
+/* ====== Responsividade ====== */
+/* papel: ajustes para telas pequenas */
 @media (max-width: 480px) {
+  .menu-item { width: calc(100% - 40px); }
   footer.faixa::before { font-size: 16px; animation-duration: 18s, 6s; }
   footer.faixa::after  { font-size: 14px; animation-duration: 28s, 8s; }
   footer.faixa { height: 52px; font-size: 16px; }
-}
-/* ===== estilo do h1 dentro da faixa animada (opção 5) ===== */
-/* papel: título limpo e legível com uma sublinha animada discreta */
-.anim-band h1 {
-  margin: 0;                                 /* remove margem padrão */
-  color: #fff;                               /* texto claro sobre o fundo */
-  font-weight: 800;                          /* destaque visual */
-  font-size: clamp(1.1rem, 3.2vw, 1.9rem);   /* responsivo entre mobile e desktop */
-  padding: 6px 8px;                          /* espaço interno leve */
-  position: relative;                        /* necessário para o ::after */
-  z-index: 3;                                /* garante que fique acima da animação da faixa */
-  text-shadow: 0 3px 10px rgba(0,0,0,0.45);  /* sombra para legibilidade */
-  transition: color .18s ease;               /* transição suave caso queira hover */
-}
 
+  /* reduz espaço entre faixa e cards em mobile */
+  .cardapio { margin-top: 24px; }
 
-/* ===== sublinha animada ===== */
-/* papel: detalhe visual sutil que cresce ao passar o mouse */
-.anim-band h1::after {
-  content: "";
-  position: absolute;
-  left: 50%;                                 /* centraliza horizontalmente */
-  bottom: -8px;                              /* distância entre texto e linha */
-  transform: translateX(-50%);               /* centraliza via transform */
-  width: 40%;                                /* largura inicial da linha */
-  height: 4px;                               /* espessura da linha */
-  border-radius: 4px;                        /* cantos arredondados */
-  background: linear-gradient(90deg, #ffb347, #ff6a00); /* gradiente quente */
-  transition: width .28s cubic-bezier(.2,.9,.2,1);      /* animação suave */
-  box-shadow: 0 6px 14px rgba(255,106,0,0.12);         /* brilho sutil */
-  pointer-events: none;                      /* não interfere em cliques */
-}
-
-/* ===== hover: aumenta a linha para dar feedback ===== */
-/* papel: interação discreta ao passar o mouse sobre o título */
-.anim-band h1:hover::after {
-  width: 60%;
-}
-
-/* ===== acessibilidade: foco por teclado ===== */
-/* papel: garante que usuários de teclado vejam o efeito */
-.anim-band h1:focus {
-  outline: none;
-}
-.anim-band h1:focus::after {
-  width: 60%;
-  box-shadow: 0 8px 20px rgba(255,106,0,0.18);
-}
-
-/* ===== responsivo: ajusta espaçamento e tamanho em telas pequenas ===== */
-@media (max-width: 480px) {
-  .anim-band h1 {
-    font-size: clamp(1rem, 6vw, 1.4rem);
-    padding: 4px 8px;
-  }
-  .anim-band h1::after {
-    bottom: -6px;
-    height: 3px;
-    width: 45%;
-  }
+  /* ajusta a sublinha do h1 em mobile */
+  .anim-band h1 { font-size: clamp(1rem, 6vw, 1.4rem); padding: 4px 8px; }
+  .anim-band h1::after { bottom: -6px; height: 3px; width: 45%; }
   .anim-band h1:hover::after { width: 65%; }
 }
