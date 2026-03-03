@@ -1,30 +1,207 @@
+/* ====== Estilos gerais ====== */
 body {
   font-family: Arial, sans-serif;
-  background: #f9f9f9; /* cor de fundo da página */
+  margin: 0;
+  padding: 0;
+
+  /* Fundo fotorealista (substitua pelo caminho correto se necessário) */
+  background-image: url("fundo.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: transparent;
+
+  /* remove animações de gradiente anteriores */
+  animation: none;
 }
 
+/* Animação do gradiente removida (mantida apenas por compatibilidade) */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ====== Layout do cardápio ====== */
 h1 {
   text-align: center;
-  color: darkred; } 
-/*titução do cardápio, centralizado e com cor vermelha escura*/
+  color: darkred;
+  margin: 20px 0;
+}
+
+.cardapio {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
 
 .menu-item {
   border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px;
+  padding: 15px;
   background: #fff;
   width: 250px;
-  text-align: left;
-  display: block; /* garante que cada item ocupe uma linha */
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
 }
 
-.menu-item img {
-  width: 150px;
-  border-radius: 8px;
-} /* estilo para as imagens dos itens do cardápio, com bordas arredondadas*/
+.menu-item:hover {
+  transform: scale(1.05);
+}
+
+.emoji {
+  font-size: 80px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+}
 
 .price {
   color: green;
   font-weight: bold;
   font-size: 18px;
-}/* estilo para os preços dos itens do cardápio, com cor verde, negrito e tamanho de fonte maior */
+  margin-top: 10px;
+}
+
+/* ====== Rodapé: faixa fixa com emojis e efeito ====== */
+footer.faixa {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  z-index: 999;
+  overflow: hidden; /* esconde o que sai da faixa */
+
+  /* Fundo neon da faixa */
+  background: linear-gradient(135deg, rgba(255,204,0,0.95), rgba(255,102,0,0.95));
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
+}
+
+/* Camada 1: emojis rolando para a direita e girando levemente */
+footer.faixa::before {
+  content: "🍔  🍕  🥤  🍔  🍕  🥤  🍔  🍕  🥤";
+  position: absolute;
+  left: -100%;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 20px;            /* tamanho menor */
+  opacity: 0.95;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.25));
+  animation: slideRight 14s linear infinite, spinSlight 6s linear infinite;
+}
+
+/* Camada 2: emojis rolando para a esquerda, mais lento, com opacidade menor */
+footer.faixa::after {
+  content: "🍕  🥤  🍔  🍕  🥤  🍔  🍕  🥤  🍔";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 16px;            /* ainda menor para profundidade */
+  opacity: 0.6;
+  filter: blur(0.2px);
+  animation: slideLeft 22s linear infinite, spinSlight 8s linear infinite;
+}
+
+/* Animações das camadas */
+@keyframes slideRight {
+  0%   { left: -100%; }
+  100% { left: 100%; }
+}
+@keyframes slideLeft {
+  0%   { left: 100%; }
+  100% { left: -100%; }
+}
+
+/* Pequeno giro contínuo para dar "rodando" */
+@keyframes spinSlight {
+  0%   { transform: translateY(-50%) rotate(0deg); }
+  50%  { transform: translateY(-50%) rotate(8deg); }
+  100% { transform: translateY(-50%) rotate(0deg); }
+}
+
+/* Ajustes responsivos para telas pequenas */
+@media (max-width: 480px) {
+  footer.faixa::before { font-size: 16px; animation-duration: 18s, 6s; }
+  footer.faixa::after  { font-size: 14px; animation-duration: 28s, 8s; }
+  footer.faixa { height: 52px; font-size: 16px; }
+}
+/* ===== estilo do h1 dentro da faixa animada (opção 5) ===== */
+/* papel: título limpo e legível com uma sublinha animada discreta */
+.anim-band h1 {
+  margin: 0;                                 /* remove margem padrão */
+  color: #fff;                               /* texto claro sobre o fundo */
+  font-weight: 800;                          /* destaque visual */
+  font-size: clamp(1.1rem, 3.2vw, 1.9rem);   /* responsivo entre mobile e desktop */
+  padding: 6px 8px;                          /* espaço interno leve */
+  position: relative;                        /* necessário para o ::after */
+  z-index: 3;                                /* garante que fique acima da animação da faixa */
+  text-shadow: 0 3px 10px rgba(0,0,0,0.45);  /* sombra para legibilidade */
+  transition: color .18s ease;               /* transição suave caso queira hover */
+}
+
+
+/* ===== sublinha animada ===== */
+/* papel: detalhe visual sutil que cresce ao passar o mouse */
+.anim-band h1::after {
+  content: "";
+  position: absolute;
+  left: 50%;                                 /* centraliza horizontalmente */
+  bottom: -8px;                              /* distância entre texto e linha */
+  transform: translateX(-50%);               /* centraliza via transform */
+  width: 40%;                                /* largura inicial da linha */
+  height: 4px;                               /* espessura da linha */
+  border-radius: 4px;                        /* cantos arredondados */
+  background: linear-gradient(90deg, #ffb347, #ff6a00); /* gradiente quente */
+  transition: width .28s cubic-bezier(.2,.9,.2,1);      /* animação suave */
+  box-shadow: 0 6px 14px rgba(255,106,0,0.12);         /* brilho sutil */
+  pointer-events: none;                      /* não interfere em cliques */
+}
+
+/* ===== hover: aumenta a linha para dar feedback ===== */
+/* papel: interação discreta ao passar o mouse sobre o título */
+.anim-band h1:hover::after {
+  width: 60%;
+}
+
+/* ===== acessibilidade: foco por teclado ===== */
+/* papel: garante que usuários de teclado vejam o efeito */
+.anim-band h1:focus {
+  outline: none;
+}
+.anim-band h1:focus::after {
+  width: 60%;
+  box-shadow: 0 8px 20px rgba(255,106,0,0.18);
+}
+
+/* ===== responsivo: ajusta espaçamento e tamanho em telas pequenas ===== */
+@media (max-width: 480px) {
+  .anim-band h1 {
+    font-size: clamp(1rem, 6vw, 1.4rem);
+    padding: 4px 8px;
+  }
+  .anim-band h1::after {
+    bottom: -6px;
+    height: 3px;
+    width: 45%;
+  }
+  .anim-band h1:hover::after { width: 65%; }
+}
