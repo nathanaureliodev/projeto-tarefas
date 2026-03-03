@@ -1,0 +1,30 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f9f9f9; /* cor de fundo da página */
+}
+
+h1 {
+  text-align: center;
+  color: darkred; } 
+/*titução do cardápio, centralizado e com cor vermelha escura*/
+
+.menu-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  background: #fff;
+  width: 250px;
+  text-align: left;
+  display: block; /* garante que cada item ocupe uma linha */
+}
+
+.menu-item img {
+  width: 150px;
+  border-radius: 8px;
+} /* estilo para as imagens dos itens do cardápio, com bordas arredondadas*/
+
+.price {
+  color: green;
+  font-weight: bold;
+  font-size: 18px;
+}/* estilo para os preços dos itens do cardápio, com cor verde, negrito e tamanho de fonte maior */
