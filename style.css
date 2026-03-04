@@ -1,302 +1,207 @@
-/* ====== Estilos gerais ====== */
-/* papel: fonte base, reset de margem/padding e fundo fotorealista */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+/* ====== Google Fonts (import) ====== */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap');
 
-  /* Fundo fotorealista (substitua pelo caminho correto se necessário) */
+/* ====== Variáveis de tema ====== */
+:root{
+  --teal-100: #e6fafa;
+  --teal-200: #dceded;
+  --teal-600: #00b3b3;
+  --teal-700: #007a7a;
+  --teal-900: #004f4f;
+  --muted: rgba(17,17,17,0.78);
+  --card-radius: 12px;
+
+  --accent-start: #ffb347;
+  --accent-end:   #ffd24a;
+  --accent-strong: #ff6a00;
+}
+
+/* ====== Reset e fundo ====== */
+html,body{height:100%;}
+body{
+  font-family: "Montserrat", Arial, sans-serif;
+  margin:0;
+  padding:0;
   background-image: url("fundo.png");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-color: transparent;
-
-  /* remove animações de gradiente anteriores */
-  animation: none;
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-color:transparent;
 }
 
-/* ====== Faixa animada (header) ====== */
-/* papel: container da faixa com fundo escuro semi-opaco para contraste */
-.anim-band {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px 12px;
-  position: relative;
-  z-index: 2;
+/* ====== Header ====== */
+.anim-band{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:16px 12px;
+  position:relative;
+  z-index:3;
   background: linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.35));
-  overflow: hidden;
+  overflow:hidden;
 }
-
-/* camada animada de brilho na faixa */
-.anim-band::before {
-  content: "";
-  position: absolute;
-  inset: -40% 0 -40% 0;
-  background: linear-gradient(90deg, rgba(255,120,0,0.06), rgba(255,255,255,0.02), rgba(255,120,0,0.06));
-  transform: rotate(12deg);
-  animation: bandGlow 6s ease-in-out infinite;
-  pointer-events: none;
-  mix-blend-mode: screen;
+.anim-band h1{
+  margin:0;
+  color:#fff;
+  font-weight:700;
+  font-size:clamp(1.1rem,3.2vw,1.9rem);
+  padding:6px 8px;
+  position:relative;
+  z-index:4;
+  text-shadow:0 3px 10px rgba(0,0,0,0.45);
+  display:inline-block;
+  font-family:"Playfair Display", Georgia, serif;
 }
-@keyframes bandGlow {
-  0%   { transform: translateX(-30%) rotate(12deg); opacity: 0.6; }
-  50%  { transform: translateX(30%)  rotate(12deg); opacity: 1; }
-  100% { transform: translateX(-30%) rotate(12deg); opacity: 0.6; }
-}
-
-/* ===== estilo do h1 dentro da faixa animada (opção 5) ===== */
-/* papel: título limpo e legível com uma sublinha animada discreta */
-.anim-band h1 {
-  margin: 0;
-  color: #fff;
-  font-weight: 800;
-  font-size: clamp(1.1rem, 3.2vw, 1.9rem);
-  padding: 6px 8px;
-  position: relative;
-  z-index: 3;
-  text-shadow: 0 3px 10px rgba(0,0,0,0.45);
-  transition: color .18s ease;
-  display: inline-block;
-}
-
-/* ===== sublinha animada ===== */
-.anim-band h1::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -10px;
-  transform: translateX(-50%);
-  width: 40%;
-  height: 4px;
-  border-radius: 4px;
-  background: linear-gradient(90deg, #ffb347, #ff6a00);
+.anim-band h1::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:-10px;
+  transform:translateX(-50%);
+  width:40%;
+  height:4px;
+  border-radius:4px;
+  background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
   transition: width .28s cubic-bezier(.2,.9,.2,1);
-  box-shadow: 0 6px 14px rgba(255,106,0,0.12);
-  pointer-events: none;
-}
-.anim-band h1:hover::after { width: 60%; }
-.anim-band h1:focus { outline: none; }
-.anim-band h1:focus::after {
-  width: 60%;
-  box-shadow: 0 8px 20px rgba(255,106,0,0.18);
+  box-shadow:0 6px 14px rgba(255,106,0,0.12);
 }
 
-/* ====== Layout do cardápio ====== */
-/* papel: container dos cards; margin-top afasta os cards da faixa */
-.cardapio {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;               /* reduzido para encaixar mais cards na linha */
-  max-width: 1000px;
-  margin: 0 auto;
-  margin-top: 48px;        /* espaço entre a faixa e os cards */
-  padding: 0 16px;
+/* ====== Cardapio grid ====== */
+.cardapio{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap:14px;
+  max-width:960px;
+  margin:0 auto;
+  margin-top:48px;
+  padding:0 16px 160px; /* espaço para footer */
+  box-sizing:border-box;
+  position:relative;
+  z-index:1;
 }
 
-/* ===== Tamanho reduzido dos cards ===== */
-/* papel: cards menores para caber mais itens sem quebrar o layout */
-.menu-item {
-  position: relative;      /* necessário para badges posicionadas */
-  border: 1px solid rgba(0,0,0,0.06);
-  padding: 12px;
-  background: rgba(255,255,255,0.18); /* semi-branco translúcido */
-  backdrop-filter: blur(6px) saturate(1.05);
-  -webkit-backdrop-filter: blur(6px) saturate(1.05);
-  width: 200px;            /* reduzido para 200px */
-  text-align: left;        /* texto alinhado à esquerda para melhor leitura */
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-  color: #111;             /* texto escuro para legibilidade sobre o semi-branco */
+/* ====== Cards ====== */
+.menu-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  width:100%;
+  max-width:180px;
+  min-height:300px;
+  padding:12px 14px;
+  border-radius:var(--card-radius);
+  background: linear-gradient(180deg, var(--teal-100), var(--teal-200));
+  border:1px solid rgba(0,0,0,0.06);
+  box-shadow:0 10px 26px rgba(0,0,0,0.10);
+  color:var(--teal-900);
+  transition: transform .18s ease, box-shadow .18s ease;
+  text-align:center;
+  box-sizing:border-box;
+  overflow:hidden;
 }
-.menu-item:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+.menu-item:hover{ transform: translateY(-6px); box-shadow:0 22px 48px rgba(0,0,0,0.14); }
+.menu-item::after{ content:""; position:absolute; inset:0; border-radius:var(--card-radius); pointer-events:none; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); }
+
+/* remove faixa laranja dos cards */
+.menu-item .top-accent{ display:none !important; }
+
+/* ====== Imagem ====== */
+.image-container{ width:100%; display:flex; justify-content:center; align-items:center; height:110px; margin-bottom:8px; box-sizing:border-box; }
+.item-img{ width:72px; height:72px; object-fit:contain; border-radius:10px; background:rgba(255,255,255,0.06); padding:6px; box-shadow:0 6px 14px rgba(0,0,0,0.06); display:block; }
+
+/* ====== Tipografia ====== */
+.menu-item h2{ font-family:"Cinzel","Playfair Display",serif; font-weight:700; font-size:1rem; margin:8px 0 6px; letter-spacing:0.6px; text-transform:capitalize; color:var(--teal-900); text-shadow:0 2px 0 rgba(255,255,255,0.6), 0 6px 18px rgba(0,0,0,0.06); }
+.menu-item p{ font-family:"Montserrat",Arial,sans-serif; margin:0; color:var(--muted); font-size:0.92rem; line-height:1.35; padding:0 8px; }
+.price{ margin-top:auto; font-family:"Montserrat",Arial,sans-serif; font-weight:700; color:var(--teal-700); font-size:15px; text-align:center; padding-top:10px; }
+
+/* divider */
+.menu-item .divider{ height:2px; width:36px; margin:8px 0 10px; border-radius:2px; background: linear-gradient(90deg, rgba(0,179,179,0.9), rgba(0,122,122,0.9)); opacity:0.95; }
+
+/* ====== Buy row (corrigido: qty à esquerda, comprar à direita) ====== */
+.buy-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between; /* garante ordem: qty | comprar */
+  gap:10px;
+  width:100%;
+  margin-top:12px;
+  box-sizing:border-box;
 }
 
-/* ===== Normalização de ícones e emojis (aplicar globalmente) ===== */
+/* quantidade (cinza padrão) */
+.qty-controls{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:#f0f0f0;
+  border-radius:8px;
+  padding:4px 6px;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.02);
+}
+.qty-btn{
+  background:transparent;
+  border:none;
+  color:#555;
+  font-size:18px;
+  width:28px;
+  height:28px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  border-radius:6px;
+}
+.qty-btn:active{ transform: translateY(1px); }
+.qty-value{ min-width:20px; text-align:center; font-weight:600; color:#444; }
 
-/* Container que envolve emoji ou <img> (use em todos os cards) */
-.image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 110px;        /* altura do espaço do ícone */
-  margin-bottom: 6px;
-  overflow: hidden;     /* evita que conteúdo extrapole */
-  max-width: 120px;     /* limita largura do espaço do ícone */
-  padding: 0 6px;
-  box-sizing: border-box;
+/* botão comprar (verde) */
+.buy-btn{
+  background: linear-gradient(90deg, #0bb24f, #0a8f3a);
+  color:#fff;
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(10,140,58,0.18);
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
 }
+.buy-btn:active{ transform: translateY(1px); opacity:0.95; }
 
-/* Emoji (fallback) — reduzido e contido */
-.emoji {
-  font-size: 36px;      /* ajuste entre 24–48px conforme preferir */
-  line-height: 1;
-  display: inline-block;
-  vertical-align: middle;
-  max-width: 100%;
-  height: auto;
-  text-align: center;
-  overflow: hidden;
-  white-space: nowrap;
+/* ====== Footer (laranja/amarelo) ====== */
+footer.faixa{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  font-weight:bold;
+  color:#fff;
+  z-index:999;
+  overflow:hidden;
+  background: linear-gradient(135deg, var(--accent-start), var(--accent-strong));
+  box-shadow:0 -4px 20px rgba(0,0,0,0.25);
 }
-
-/* Classe utilitária para esconder emoji quando usar imagem */
-.icon-replace .emoji { display: none; }
-
-/* Imagens usadas como ícones (substituem emoji) */
-.image-container img,
-.item-img,
-.icon-replace img {
-  width: 72px;          /* ajuste entre 48–120px conforme preferir */
-  height: 72px;
-  object-fit: contain;
-  display: block;
-  border-radius: 10px;  /* opcional */
-  background: rgba(255,255,255,0.06);
-  padding: 6px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-  margin: 0 auto;
-}
-
-/* Garante que imagens dentro de .menu-item não quebrem o layout */
-.menu-item img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Limita ícones muito grandes em containers maiores */
-.image-container.large img,
-.image-container.large .emoji {
-  width: 96px;
-  height: 96px;
-}
-
-/* Esconder emoji em telas muito pequenas (opcional) */
-@media (max-width: 480px) {
-  .emoji { display: none; }
-  .image-container { height: 100px; max-width: 110px; }
-  .image-container img,
-  .item-img { width: 64px; height: 64px; padding: 4px; }
-}
-
-/* Ajustes para tablets / telas médias */
-@media (max-width: 768px) {
-  .image-container { height: 120px; max-width: 120px; }
-  .image-container img,
-  .item-img { width: 80px; height: 80px; }
-}
-
-/* Utilitários rápidos (use nas tags onde quiser substituir emoji por imagem) */
-/* - Adicione a classe `icon-replace` ao elemento pai para esconder o emoji e mostrar a imagem. */
-/* Exemplo de uso no HTML: <div class="image-container icon-replace"><span class="emoji">🍨</span><img src="images/sorvete.png" alt=""></div> */
-
-/* ===== Tipografia e preço (ajustados) ===== */
-.menu-item h2 {
-  margin: 8px 0 6px;
-  font-size: 1rem;
-  color: #111;               /* título escuro para contraste */
-}
-.menu-item p {
-  margin: 0;
-  color: rgba(17,17,17,0.85); /* descrição escura */
-  font-size: 0.95rem;
-}
-.price {
-  color: #0b7a3a;            /* verde mais suave */
-  font-weight: 700;
-  font-size: 16px;
-  margin-top: 8px;
-  display: block;
-  text-align: right;        /* preço alinhado à direita */
-}
-
-/* ===== Badge "Novo" opcional para destaque (ex.: Chopp) ===== */
-.menu-item .badge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: #ff6a00;
-  color: #fff;
-  font-size: 0.7rem;
-  padding: 4px 8px;
-  border-radius: 999px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-}
-
-/* ====== Rodapé: faixa fixa com emojis e efeito ====== */
-footer.faixa {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: bold;
-  color: #fff;
-  z-index: 999;
-  overflow: hidden;
-  background: linear-gradient(135deg, rgba(255,204,0,0.95), rgba(255,102,0,0.95));
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
-}
-footer.faixa::before {
-  content: "🍔  🍕  🥤  🍔  🍕  🥤  🍔  🍕  🥤";
-  position: absolute;
-  left: -100%;
-  top: 50%;
-  transform: translateY(-50%);
-  white-space: nowrap;
-  font-size: 20px;
-  opacity: 0.95;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.25));
-  animation: slideRight 14s linear infinite, spinSlight 6s linear infinite;
-}
-footer.faixa::after {
-  content: "🍕  🥤  🍔  🍕  🥤  🍔  🍕  🥤  🍔";
-  position: absolute;
-  left: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-  white-space: nowrap;
-  font-size: 16px;
-  opacity: 0.6;
-  filter: blur(0.2px);
-  animation: slideLeft 22s linear infinite, spinSlight 8s linear infinite;
-}
-@keyframes slideRight { 0% { left: -100%; } 100% { left: 100%; } }
-@keyframes slideLeft  { 0% { left: 100%; } 100% { left: -100%; } }
-@keyframes spinSlight { 0% { transform: translateY(-50%) rotate(0deg); } 50% { transform: translateY(-50%) rotate(8deg); } 100% { transform: translateY(-50%) rotate(0deg); } }
+footer.faixa::before{ content:"🍔  🍕  🥤  🍔  🍕  🥤  🍔  🍕  🥤"; position:absolute; left:-100%; top:50%; transform:translateY(-50%); white-space:nowrap; font-size:20px; opacity:0.95; filter:drop-shadow(0 2px 2px rgba(0,0,0,0.25)); animation: slideRight 14s linear infinite, spinSlight 6s linear infinite; }
+footer.faixa::after{ content:"🍕  🥤  🍔  🍕  🥤  🍔  🍕  🥤  🍔"; position:absolute; left:100%; top:50%; transform:translateY(-50%); white-space:nowrap; font-size:16px; opacity:0.6; filter:blur(0.2px); animation: slideLeft 22s linear infinite, spinSlight 8s linear infinite; }
+@keyframes slideRight{ 0%{ left:-100%; } 100%{ left:100%; } }
+@keyframes slideLeft{ 0%{ left:100%; } 100%{ left:-100%; } }
+@keyframes spinSlight{ 0%{ transform:translateY(-50%) rotate(0deg); } 50%{ transform:translateY(-50%) rotate(8deg); } 100%{ transform:translateY(-50%) rotate(0deg); } }
 
 /* ====== Responsividade ====== */
-/* papel: ajustes para telas pequenas */
-@media (max-width: 600px) {
-  .menu-item { width: calc(100% - 40px); }
-  .emoji { font-size: 36px; } /* mantido menor em mobile */
-  .image-container { height: 130px; }
-  .cardapio { gap: 14px; margin-top: 36px; }
+@media (max-width:600px){
+  .cardapio{ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px; padding-bottom:180px; }
+  .menu-item{ min-height:280px; max-width:none; width:100%; }
+  .item-img{ width:64px; height:64px; }
+  .buy-row{ gap:8px; justify-content:space-between; }
 }
-
-/* ajustes finos para telas muito pequenas */
-@media (max-width: 480px) {
-  .menu-item { width: calc(100% - 32px); padding: 12px; }
-  footer.faixa::before { font-size: 16px; animation-duration: 18s, 6s; }
-  footer.faixa::after  { font-size: 14px; animation-duration: 28s, 8s; }
-  footer.faixa { height: 52px; font-size: 16px; }
-
-  /* reduz espaço entre faixa e cards em mobile */
-  .cardapio { margin-top: 24px; }
-
-  /* ajusta a sublinha do h1 em mobile */
-  .anim-band h1 { font-size: clamp(1rem, 6vw, 1.4rem); padding: 4px 8px; }
-  .anim-band h1::after { bottom: -6px; height: 3px; width: 45%; }
-  .anim-band h1:hover::after { width: 65%; }
+@media (max-width:480px){
+  .menu-item{ min-height:260px; padding:10px; }
+  .anim-band h1::after{ bottom:-6px; height:3px; width:45%; }
 }
