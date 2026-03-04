@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Cardápio Digital</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css?v=6">
+  <!-- CSS externo (substitua se necessário) -->
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 
   <!-- Faixa animada com título -->
-  <header class="anim-band">
+  <header class="anim-band" role="banner">
     <h1 tabindex="0">🍔 Cardápio da Lanchonete</h1>
   </header>
 
-  <!-- Cardápio: 5 itens -->
+  <!-- Cardápio: itens -->
   <main class="cardapio" role="main" aria-label="Cardápio da lanchonete">
 
     <!-- Item Hambúrguer -->
     <article class="menu-item" aria-labelledby="item-hamburguer">
-      <div class="image-container icon-replace" aria-hidden="true">
+      <div class="image-container" aria-hidden="true">
         <img src="burguer.png" alt="Hambúrguer Clássico" class="item-img">
       </div>
       <h2 id="item-hamburguer">Hambúrguer Clássico</h2>
@@ -31,20 +31,19 @@
       <p>Pão, carne, queijo e salada.</p>
       <p class="price">R$ 20,00</p>
 
-      <!-- Comprar: QTY (esquerda) | Comprar (direita) -->
-      <div class="buy-row" aria-hidden="false">
+      <div class="buy-row" aria-label="Comprar hambúrguer">
         <div class="qty-controls" aria-label="Quantidade">
-          <button class="qty-btn minus" type="button">−</button>
-          <span class="qty-value">1</span>
-          <button class="qty-btn plus" type="button">+</button>
+          <button class="qty-btn minus" type="button" aria-label="Diminuir quantidade">−</button>
+          <span class="qty-value" aria-live="polite">1</span>
+          <button class="qty-btn plus" type="button" aria-label="Aumentar quantidade">+</button>
         </div>
-        <button class="buy-btn" type="button">Comprar</button>
+        <button class="buy-btn" type="button" aria-label="Comprar hambúrguer">Comprar</button>
       </div>
     </article>
 
     <!-- Item Pizza -->
     <article class="menu-item" aria-labelledby="item-pizza">
-      <div class="image-container icon-replace" aria-hidden="true">
+      <div class="image-container" aria-hidden="true">
         <img src="pizza.png" alt="Pizza Mussarela" class="item-img">
       </div>
       <h2 id="item-pizza">Pizza Mussarela</h2>
@@ -52,19 +51,19 @@
       <p>Massa crocante com queijo derretido.</p>
       <p class="price">R$ 35,00</p>
 
-      <div class="buy-row">
-        <div class="qty-controls">
-          <button class="qty-btn minus" type="button">−</button>
-          <span class="qty-value">1</span>
-          <button class="qty-btn plus" type="button">+</button>
+      <div class="buy-row" aria-label="Comprar pizza">
+        <div class="qty-controls" aria-label="Quantidade">
+          <button class="qty-btn minus" type="button" aria-label="Diminuir quantidade">−</button>
+          <span class="qty-value" aria-live="polite">1</span>
+          <button class="qty-btn plus" type="button" aria-label="Aumentar quantidade">+</button>
         </div>
-        <button class="buy-btn" type="button">Comprar</button>
+        <button class="buy-btn" type="button" aria-label="Comprar pizza">Comprar</button>
       </div>
     </article>
 
     <!-- Item Suco -->
     <article class="menu-item" aria-labelledby="item-suco">
-      <div class="image-container icon-replace" aria-hidden="true">
+      <div class="image-container" aria-hidden="true">
         <img src="bebida.png" alt="Suco Natural" class="item-img">
       </div>
       <h2 id="item-suco">Suco Natural</h2>
@@ -72,19 +71,19 @@
       <p>Refrescante e saudável.</p>
       <p class="price">R$ 8,00</p>
 
-      <div class="buy-row">
-        <div class="qty-controls">
-          <button class="qty-btn minus" type="button">−</button>
-          <span class="qty-value">1</span>
-          <button class="qty-btn plus" type="button">+</button>
+      <div class="buy-row" aria-label="Comprar suco">
+        <div class="qty-controls" aria-label="Quantidade">
+          <button class="qty-btn minus" type="button" aria-label="Diminuir quantidade">−</button>
+          <span class="qty-value" aria-live="polite">1</span>
+          <button class="qty-btn plus" type="button" aria-label="Aumentar quantidade">+</button>
         </div>
-        <button class="buy-btn" type="button">Comprar</button>
+        <button class="buy-btn" type="button" aria-label="Comprar suco">Comprar</button>
       </div>
     </article>
 
     <!-- Item Chopp -->
     <article class="menu-item" aria-labelledby="item-chopp">
-      <div class="image-container icon-replace" aria-hidden="true">
+      <div class="image-container" aria-hidden="true">
         <img src="chopp.png" alt="Chopp Gelado" class="item-img">
       </div>
       <h2 id="item-chopp">Chopp Gelado</h2>
@@ -92,19 +91,19 @@
       <p>Chopp artesanal, cremoso e gelado.</p>
       <p class="price">R$ 12,00</p>
 
-      <div class="buy-row">
-        <div class="qty-controls">
-          <button class="qty-btn minus" type="button">−</button>
-          <span class="qty-value">1</span>
-          <button class="qty-btn plus" type="button">+</button>
+      <div class="buy-row" aria-label="Comprar chopp">
+        <div class="qty-controls" aria-label="Quantidade">
+          <button class="qty-btn minus" type="button" aria-label="Diminuir quantidade">−</button>
+          <span class="qty-value" aria-live="polite">1</span>
+          <button class="qty-btn plus" type="button" aria-label="Aumentar quantidade">+</button>
         </div>
-        <button class="buy-btn" type="button">Comprar</button>
+        <button class="buy-btn" type="button" aria-label="Comprar chopp">Comprar</button>
       </div>
     </article>
 
     <!-- Item Sobremesa -->
     <article class="menu-item" aria-labelledby="item-sobremesa">
-      <div class="image-container icon-replace" aria-hidden="true">
+      <div class="image-container" aria-hidden="true">
         <img src="sobremesa.png" alt="Sobremesa em taça" class="item-img">
       </div>
       <h2 id="item-sobremesa">Sobremesa</h2>
@@ -112,13 +111,13 @@
       <p>Taça de sorvete com calda e granulado.</p>
       <p class="price">R$ 10,00</p>
 
-      <div class="buy-row">
-        <div class="qty-controls">
-          <button class="qty-btn minus" type="button">−</button>
-          <span class="qty-value">1</span>
-          <button class="qty-btn plus" type="button">+</button>
+      <div class="buy-row" aria-label="Comprar sobremesa">
+        <div class="qty-controls" aria-label="Quantidade">
+          <button class="qty-btn minus" type="button" aria-label="Diminuir quantidade">−</button>
+          <span class="qty-value" aria-live="polite">1</span>
+          <button class="qty-btn plus" type="button" aria-label="Aumentar quantidade">+</button>
         </div>
-        <button class="buy-btn" type="button">Comprar</button>
+        <button class="buy-btn" type="button" aria-label="Comprar sobremesa">Comprar</button>
       </div>
     </article>
 
@@ -129,18 +128,22 @@
     <p>🍔🍕🥤 Venha saborear!</p>
   </footer>
 
-  <!-- Script: incremento visual das quantidades -->
+  <!-- Script: incremento visual das quantidades (demo local) -->
   <script>
     document.querySelectorAll('.buy-row').forEach(row => {
       const minus = row.querySelector('.qty-btn.minus');
       const plus = row.querySelector('.qty-btn.plus');
       const value = row.querySelector('.qty-value');
+
       minus?.addEventListener('click', () => {
         let n = parseInt(value.textContent || '1', 10);
+        if (Number.isNaN(n)) n = 1;
         if (n > 1) value.textContent = String(n - 1);
       });
+
       plus?.addEventListener('click', () => {
         let n = parseInt(value.textContent || '1', 10);
+        if (Number.isNaN(n)) n = 1;
         value.textContent = String(n + 1);
       });
     });

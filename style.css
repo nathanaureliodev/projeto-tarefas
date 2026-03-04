@@ -15,20 +15,72 @@
   --accent-start: #ffb347;
   --accent-end:   #ffd24a;
   --accent-strong: #ff6a00;
+
+  /* hero background overlays */
+  --hero-overlay-desktop: rgba(0,0,0,0.20);
+  --hero-overlay-mobile:  rgba(0,0,0,0.26);
 }
 
-/* ====== Estilos gerais ====== */
-html,body { height:100%; }
+/* ====== Reset e fundo ====== */
+html, body {
+  height: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+*, *::before, *::after { box-sizing: inherit; }
+
+/* ====== Hero responsivo: desktop e mobile ====== */
+/* Substitua os caminhos se salvou as imagens em outra pasta */
 body {
   font-family: "Montserrat", Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url("fundo.png");
-  background-position: center;
+
+  /* Desktop por padrão */
+  background-image: url("desktop.png");
+  background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
+  background-attachment: fixed;
   background-color: transparent;
   animation: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Overlay fixo para legibilidade */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: var(--hero-overlay-desktop);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Garante que conteúdo fique acima do overlay */
+.anim-band,
+.cardapio,
+.menu-item,
+footer.faixa {
+  position: relative;
+  z-index: 2;
+}
+
+/* Fallback para mobile browsers que ignoram background-attachment: fixed */
+@supports (-webkit-touch-callout: none) {
+  body { background-attachment: scroll; }
+}
+
+/* Mobile: troca a imagem por versão vertical */
+@media (max-width: 768px) {
+  body {
+    background-image: url("mobile.png");
+    background-attachment: scroll; /* evita glitches em mobile */
+  }
+  body::before { background: var(--hero-overlay-mobile); }
 }
 
 /* ====== Faixa animada (header) ====== */
@@ -59,7 +111,6 @@ body {
   100% { transform: translateX(-30%) rotate(12deg); opacity: 0.6; }
 }
 
-/* h1 com underline laranja->amarelo (mantido apenas no header) */
 .anim-band h1 {
   margin: 0;
   color: #fff;
@@ -89,22 +140,32 @@ body {
 }
 .anim-band h1:hover::after { width: 60%; }
 
-/* ====== Layout do cardápio ====== */
-/* grid responsivo com padding-bottom para evitar sobreposição com footer */
+/* ====== Cardapio grid (desktop-stable + responsive) ====== */
+/* Desktop: colunas fixas para evitar stretching; Mobile: fluid */
 .cardapio {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 14px;
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   margin-top: 48px;
-  padding: 0 16px 160px; /* garante espaço para o footer fixo */
+  padding: 0 16px 200px; /* espaço para footer fixo */
   box-sizing: border-box;
   position: relative;
   z-index: 1;
+  justify-items: center;
 }
 
-/* ===== Tema Cool Teal: cards (ajustado) ===== */
+/* For large screens, prefer fixed column width and center grid */
+@media (min-width: 1000px) {
+  .cardapio {
+    grid-template-columns: repeat(auto-fit, 180px);
+    justify-content: center;
+    gap: 18px;
+  }
+}
+
+/* ===== Tema Cool Teal: cards ===== */
 .menu-item {
   display: flex;
   flex-direction: column;
@@ -123,9 +184,10 @@ body {
   text-align: center;
   box-sizing: border-box;
   overflow: hidden;
+  position: relative;
 }
 
-/* remove faixa laranja dos cards (apenas header mantém o accent) */
+/* remove faixa laranja dos cards (apenas header mantém the accent) */
 .menu-item .top-accent { display: none !important; }
 
 .menu-item:hover {
@@ -203,14 +265,14 @@ body {
   opacity: 0.95;
 }
 
-/* ===== Buy row: quantidade + comprar ===== */
+/* ===== Buy row: quantidade + comprar (qty à esquerda, comprar à direita) ===== */
 .buy-row {
   display: flex;
-  gap: 10px;
   align-items: center;
+  justify-content: space-between; /* garante ordem: qty | comprar */
+  gap: 10px;
   width: 100%;
   margin-top: 12px;
-  justify-content: center;
   box-sizing: border-box;
 }
 
@@ -259,7 +321,7 @@ body {
 }
 .buy-btn:active { transform: translateY(1px); opacity: 0.95; }
 
-/* ====== Rodapé: faixa fixa com emojis e efeito (mantido laranja/amarelo) ====== */
+/* ====== Rodapé: faixa fixa com emojis e efeito (laranja/amarelo) ====== */
 footer.faixa {
   position: fixed;
   bottom: 0;
@@ -306,11 +368,15 @@ footer.faixa::after {
 @keyframes spinSlight { 0% { transform: translateY(-50%) rotate(0deg); } 50% { transform: translateY(-50%) rotate(8deg); } 100% { transform: translateY(-50%) rotate(0deg); } }
 
 /* ====== Responsividade ====== */
+@media (max-width: 1000px) {
+  .cardapio { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; padding-bottom: 180px; }
+  .menu-item { max-width: 180px; min-height: 300px; }
+}
 @media (max-width: 600px) {
   .cardapio { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; padding-bottom: 180px; }
   .menu-item { min-height: 280px; max-width: none; width: 100%; }
   .item-img { width: 64px; height: 64px; }
-  .buy-row { gap: 8px; }
+  .buy-row { gap: 8px; justify-content: space-between; }
 }
 @media (max-width: 480px) {
   .menu-item { min-height: 260px; padding: 10px; }
