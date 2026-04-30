@@ -37,7 +37,7 @@ body {
   padding: 0;
 
   /* Desktop por padrão */
-  background-image: url("assets/hero-desktop.jpg");
+  background-image: url("desktop.png");
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -77,10 +77,10 @@ footer.faixa {
 /* Mobile: troca a imagem por versão vertical */
 @media (max-width: 768px) {
   body {
-    background-image: url("assets/hero-mobile.jpg");
+    background-image: url("mobile.png");
     background-attachment: scroll; /* evita glitches em mobile */
   }
-  body::before { background: var(--hero-overlay-mobile); }
+  body::before { background: var(--hero-mobile); }
 }
 
 /* ====== Faixa animada (header) ====== */
